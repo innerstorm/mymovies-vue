@@ -1,0 +1,30 @@
+body {
+    color: $c-body-text;
+    background-color: $c-body-bg;
+    
+    font-family: Montserrat, sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,h2,h3,h4 {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: -.005em;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: $max-width;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex .items-center {
+    align-items: center;
+}
