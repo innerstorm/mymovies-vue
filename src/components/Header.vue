@@ -1,21 +1,29 @@
 <template>
-  <div id="nav" class="main-nav">
+  <div id="nav" class="main-nav p-3 bg-grey-darkest mb-8">
     <div class="flex items-center">
-      <Logo />
-      <div class="nav">
-        <router-link to="/">Home</router-link> 
-        <router-link :to="{ name: 'Profile' }">Profile</router-link>
+      <router-link to="/" class="flex-none" title="Home">
+         <img src="../assets/logo.png" alt="" class="w-12">
+      </router-link> 
+      
+      <div class="flex-grow ml-6">
+        <search-bar />
+      </div>
+
+      <div class="nav flex-none pr-4">
+        <router-link :to="{ name: 'Profile' }" class="link" title="Profile Page">
+          <vue-feather type="user" size="20"></vue-feather>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from './Logo.vue'
+import SearchBar from './SearchBar.vue'
 
 export default {
-    name: 'Header',
-    components: { Logo }
+  components: { SearchBar },
+  name: 'Header',
 }
 </script>
 
