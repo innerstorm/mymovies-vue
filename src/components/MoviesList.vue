@@ -25,32 +25,24 @@
             </div>
 
             <div>
-               <div class="dropdown">
-                    <div tabindex="0" class="m-1 btn">Dropdown</div> 
+               <div class="dropdown  dropdown-end">
+                    <div tabindex="0" class="m-1 btn">Sorting <vue-feather type="chevron-down" size="20" class="ml-2"></vue-feather></div> 
                     <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
-                        <li>
-                            <a>Item 1</a>
-                        </li> 
-                        <li>
-                            <a>Item 2</a>
-                        </li> 
-                        <li>
-                            <a>Item 3</a>
-                        </li>
+                        <li><a>Latest added</a></li> 
+                        <li><a>First added</a></li> 
                     </ul>
                     </div> 
             </div>
         </div>
 
-
         <div class="movies-list flex flex-wrap" v-if="searchTerm">
-            <div v-for="movie in filteredList" :key="movie.title" class="lg:w-1/4 xl:w-1/6 pb-8 px-4">
+            <div v-for="movie in filteredList" :key="movie.title" class="movie-list-item lg:w-1/4 xl:w-1/6 pb-8 px-4">
                 <movie-card :movie="movie" />
             </div>
         </div>
 
-        <div class="movies-list text-white flex flex-wrap" v-if="!searchTerm">
-            <div v-for="movie in moviesList" :key="movie.title" class="lg:w-1/4 xl:w-1/6 pb-8 px-4">
+        <div class="movies-list flex flex-wrap" v-if="!searchTerm">
+            <div v-for="movie in moviesList" :key="movie.title" class="movie-list-item lg:w-1/4 xl:w-1/6 pb-8 px-4">
                 <movie-card :movie="movie" />
             </div>
         </div>
@@ -113,9 +105,11 @@ export default {
 
 <style>
     .movies-list {
-
         margin-left: -1rem;
         margin-right: -1rem;;
     }
+
+    .movies-list {}
+
 
 </style>
