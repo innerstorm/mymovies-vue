@@ -1,7 +1,7 @@
 <template>
   <div id="nav" class="main-nav p-3 bg-grey-darkest mb-8">
     <div class="flex items-center">
-      <router-link to="/" class="flex-none" title="Home">
+      <router-link :to="{ name: 'Home'}" class="flex-none" title="Home">
          <img src="../assets/logo.png" alt="" class="w-12">
       </router-link> 
       
@@ -22,8 +22,8 @@
 import SearchBar from './SearchBar.vue'
 
 export default {
-  components: { SearchBar },
   name: 'Header',
+  components: { SearchBar }
 }
 </script>
 
