@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar mb-2 bg-base-300">
+  <div class="navbar mb-2 bg-black">
 
     <div class="flex-1 px-2 lg:flex-none">
       <router-link :to="{ name: 'Home'}" class="flex-none" title="Home">
@@ -9,6 +9,7 @@
 
     <div class="flex justify-end flex-1 px-2">
       <div class="flex items-stretch">
+        
         <div class="dropdown dropdown-end">
           <div tabindex="0" class="btn btn-ghost rounded-btn">
             <vue-feather type="settings" size="20" class="mr-2"></vue-feather>
@@ -19,7 +20,12 @@
                 <vue-feather type="user" size="20" class="mr-2"></vue-feather>Profile Page
               </router-link>
             </li> 
-            <li><a><vue-feather type="log-out" size="20" class="mr-2"></vue-feather>Sign Out</a></li> 
+            <li>
+              <a @click="logOut">
+                <vue-feather type="log-out" size="20" class="mr-2"></vue-feather>
+                Sign Out
+              </a>
+            </li> 
           </ul>
         </div>
       </div>
@@ -28,10 +34,18 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 import SearchBar from './SearchBar.vue'
 
 export default {
   name: 'Header',
-  components: { SearchBar }
+  components: { SearchBar },
+
+  methods: {
+    logOut() {
+      firebase.auth().signOut()
+      this.$router.push('/')
+    }
+  }
 }
 </script>

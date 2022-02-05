@@ -6,7 +6,7 @@
             <input 
                 v-model="searchTerm" 
                 type="text" 
-                class="bg-grey-light focus:bg-gray-200 w-full py-4 text-gray-900" 
+                class="input input-lg input-bordered w-full" 
                 placeholder="search movie title..."
                 >
         </div>
@@ -18,14 +18,14 @@
         <div class="my-10 flex flex-nowrap justify-between items-center">
             <div>
                 <div class="btn-group">
-                    <button class="btn btn-active">Normal</button> 
+                    <button class="btn">Normal</button> 
                     <button class="btn">Normal</button> 
                     <button class="btn">Normal</button> 
                 </div>
             </div>
 
             <div>
-               <div class="dropdown  dropdown-end">
+               <div class="dropdown  dropdown-end  dropdown-hover">
                     <div tabindex="0" class="m-1 btn">Sorting <vue-feather type="chevron-down" size="20" class="ml-2"></vue-feather></div> 
                     <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
                         <li><a>Latest added</a></li> 

@@ -10,6 +10,7 @@
     "core-js": "^3.6.5",
     "daisyui": "^1.16.2",
     "feather-icons": "^4.28.0",
+    "firebase": "^8.10.1",
     "vue": "^3.0.0",
     "vue-feather": "^2.0.0-rc.1",
     "vue-router": "^4.0.0-0"

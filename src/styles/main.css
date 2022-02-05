@@ -3,21 +3,26 @@
 @tailwind utilities;
 
 html, body {
+    height: 100%;
     min-height: 100%;
-    @apply bg-grey text-beige;
+    
+}
+
+#app {
+    min-height: 100%;
 }
 
 a {
-    @apply text-primary-light;
+    /* @apply text-primary-light; */
 }
 a:hover {
-    @apply text-primary-dark;
+    /* @apply text-primary-dark; */
 }
 
 .link {
     text-transform: uppercase;
     font-weight: 700;
-    @apply text-beige;
+    /* @apply text-beige; */
 }
 
 h1, h2, h3 {
@@ -42,48 +47,48 @@ h6 { font-size: 1rem; font-weight: normal; }
 
 hr {
     height: 1px;
-    @apply bg-grey-light mb-8;
+    /* @apply bg-grey-light mb-8; */
     border: none;
 }
 
 button, a.btn {
-    border: 1px solid;
-    @apply bg-gradient-to-b from-grey-darker to-grey-darkest border-grey-darker text-beige;
-    font-size: 1rem;
+    /* border: 1px solid; */
+    /* @apply bg-gradient-to-b from-grey-darker to-grey-darkest border-grey-darker text-beige; */
+    /* font-size: 1rem;
     padding: 1rem 3rem;
     text-transform: uppercase;
     font-weight: 700;
-    border-radius: 3rem;
+    border-radius: 3rem; */
 }
 
 button:hover, a.btn:hover {
-    color: #fff;
+    /* color: #fff;
     text-shadow: 0 1px 1px #111;
-    background-image: none;
-    @apply bg-grey-dark;
+    background-image: none; */
+    /* @apply bg-grey-dark; */
 }
 
 .btn.btn-primary {
-    @apply bg-gradient-to-b from-primary-light to-primary-dark;
+    /* @apply bg-gradient-to-b from-primary-light to-primary-dark; */
 }
 
 .btn.btn-primary:hover {
-    background-image: none;
-    @apply bg-primary-light;
+    /* background-image: none; */
+    /* @apply bg-primary-light; */
 }
 
 .btn.btn-outline {
-    background-image: none;
-    border: 2px solid;
-    @apply border-grey-darkest;
+    /* background-image: none; */
+    /* border: 2px solid; */
+    /* @apply border-grey-darkest; */
 }
 
 .btn.disabled, button[disabled] {
-    @apply text-gray-500;
+    /* @apply text-gray-500; */
 }
 
 input[type=text],
 input[type=password] {
-    @apply rounded-md px-2;
-    outline-color: #fff;
+    /* @apply rounded-md px-2; */
+    /* outline-color: #fff; */
 }

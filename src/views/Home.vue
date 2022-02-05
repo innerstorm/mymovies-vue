@@ -1,27 +1,14 @@
 <template>
-  <Header />
-  <div class="container mx-auto page-content page-home">
-    <MoviesList :moviesList="moviesList" />
+  <div class="flex items-center justify-center h-screen text-center">
+      <div>
+        <h1 class="mb-8">Moviecards</h1>
+        <router-link to="/login" class="btn btn-lg">Sign in</router-link>
+      </div>
   </div>
 </template>
 
 <script>
-  import Header from '../components/Header.vue'
-  import MoviesList from '../components/MoviesList.vue'
-  import dummyData from '../assets/movies_data.json'
+export default {
 
-  export default {
-    name: 'Home',
-    components: { Header, MoviesList },
-    setup() {
-
-    },
-
-    data () {
-      return {
-        moviesList: dummyData
-      }
-
-    }
-  }
+}
 </script>
