@@ -1,7 +1,7 @@
 <template>
   <Header />
   <div class="container mx-auto page-content page-home">
-    <MoviesList :moviesList="moviesList" />
+    <MoviesList :moviesList="moviesList"/>
   </div>
 </template>
 

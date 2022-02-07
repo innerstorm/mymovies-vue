@@ -42,7 +42,7 @@
         </div>
 
         <div class="movies-list flex flex-wrap" v-if="!searchTerm">
-            <div v-for="movie in moviesList" :key="movie.title" class="movie-list-item lg:w-1/4 xl:w-1/6 pb-8 px-4">
+            <div v-for="movie in movieList" :key="movie.title" class="movie-list-item lg:w-1/4 xl:w-1/6 pb-8 px-4">
                 <movie-card :movie="movie" />
             </div>
         </div>
@@ -53,6 +53,7 @@
 <script>
 import MovieCard from './MovieCard.vue'
 import { ref, computed, watch } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
     components: { MovieCard },
@@ -60,9 +61,16 @@ export default {
     name: 'MoviesList',
 
     setup(props) {
+        const store = useStore()
+
         // create simple array from props object
-        let movieList = Object.values(JSON.parse(JSON.stringify(props.moviesList)))
-        
+        //let movieList = Object.values(JSON.parse(JSON.stringify(props.moviesList)))
+
+        // get movies from the store
+        const movieListObj = computed(() => store.state.movies)
+        // format to array of objects from firebase shit
+        let movieList = Object.values(JSON.parse(JSON.stringify(movieListObj.value)))
+
         // the text of the search input
         let searchTerm = ref('')
         

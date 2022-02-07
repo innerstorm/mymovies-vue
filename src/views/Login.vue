@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center h-screen">
+    <div class="flex items-center justify-center h-screen flex-col">
         <div class="p-6 card bg-base-200 w-96">
             <form @submit.prevent="userLogin">
                 <h1 class="text-2xl">Log in</h1>
@@ -19,7 +19,7 @@
                         :class="{'input-error': isErrorEmail}"
                         id="username" 
                         type="text" 
-                        placeholder="username">
+                        placeholder="email">
                 </div>
                 <div class="mb-6 form-control">
                     <label class="label" for="password">
@@ -38,6 +38,11 @@
                 </div>
             </form>
         </div>
+
+        <div class="mt-3">
+            <router-link :to="{name: 'Register'}">Register</router-link>
+        </div>
+        
     </div>
 </template>
 
@@ -70,7 +75,12 @@ export default {
                 .signInWithEmailAndPassword(this.email, this.password)
                 .then( (data) => {
                     console.log('login successful\n', data)
-                    this.$router.push('/dashboard')
+
+                    this.$store.commit('setUserName', data.user.displayName)
+                    this.$store.commit('setUser', data.user)
+
+
+                    this.$router.push('/')
                 })
                 .catch(e => {
                     this.isLoading = false
@@ -88,7 +98,7 @@ export default {
                             this.isErrorPassword = true
                             break
                         default:
-                            this.errorMessage = 'Email or password was incorrect'
+                            this.errorMessage = 'Default error'
                             break
                     }
                     console.error('ERROR: \n', e.message)

@@ -9,9 +9,9 @@
 
     <div class="flex justify-end flex-1 px-2">
       <div class="flex items-stretch">
-        
         <div class="dropdown dropdown-end">
           <div tabindex="0" class="btn btn-ghost rounded-btn">
+            <span class="mr-3">{{ $store.state.name }}</span>  
             <vue-feather type="settings" size="20" class="mr-2"></vue-feather>
           </div> 
           <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
