@@ -6,8 +6,9 @@
 </template>
 
 <script>
-  import Header from '../components/Header.vue'
-  import MoviesList from '../components/MoviesList.vue'
+
+  import Header from './Header.vue'
+  import MoviesList from './MoviesList.vue'
   import dummyData from '../assets/movies_data.json'
 
   export default {

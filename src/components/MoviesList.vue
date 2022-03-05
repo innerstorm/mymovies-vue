@@ -35,14 +35,14 @@
             </div>
         </div>
 
-        <div class="movies-list flex flex-wrap" v-if="searchTerm">
-            <div v-for="movie in filteredList" :key="movie.title" class="movie-list-item lg:w-1/4 xl:w-1/6 pb-8 px-4">
+        <div class="movies-list flex flex-wrap search-results" v-if="searchTerm">
+            <div v-for="movie in filteredList" :key="movie.title" class="movie-list-item md:w-1/8 lg:w-1/4 xl:w-1/6 pb-8 px-4">
                 <movie-card :movie="movie" />
             </div>
         </div>
 
         <div class="movies-list flex flex-wrap" v-if="!searchTerm">
-            <div v-for="movie in movieList" :key="movie.title" class="movie-list-item lg:w-1/4 xl:w-1/6 pb-8 px-4">
+            <div v-for="movie in movieList" :key="movie.title" class="movie-list-item pb-8 px-4 sm:w-1/3 md:w-1/8 lg:w-1/4 xl:w-1/6">
                 <movie-card :movie="movie" />
             </div>
         </div>
