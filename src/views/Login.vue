@@ -1,6 +1,9 @@
 <template>
     <div class="flex items-center justify-center h-screen flex-col">
-        <div class="p-6 card bg-base-200 w-96">
+        <div class="mb-24">
+            <img src="../assets/logo.png" alt="" class="w-32">            
+        </div>
+        <div class="p-6 card bg-base-200 w-96 shadow-lg">
             <form @submit.prevent="handleSubmit">
                 <h1 class="text-2xl">Log in</h1>
                 <div 
@@ -21,7 +24,7 @@
                         type="text" 
                         placeholder="email">
                 </div>
-                <div class="mb-6 form-control">
+                <div class="mb-10 form-control">
                     <label class="label" for="password">
                         <span class="label-text">Password</span>
                     </label>
@@ -44,7 +47,7 @@
             </form>
         </div>
 
-        <div class="mt-3">
+        <div class="mt-5">
             <router-link :to="{name: 'Register'}">Register</router-link>
         </div>
         
@@ -84,7 +87,7 @@ export default {
             } 
             catch (e) {
                 // handle error codes to write correct error messages
-                //console.log(e.code)
+                // console.log(e)
 
                 isLoading.value = false
                     

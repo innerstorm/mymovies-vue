@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useStore } from 'vuex'
 import store from '../store'
 
 const routes = [
@@ -57,7 +56,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log('router', '\nis logged in ',store.state.isLoggedIn, '\nto: ', to.name)
+  console.log('router', '\nis logged in',store.state.isLoggedIn, '\nto: ', to.name)
   
   if (to.name === 'Login') {
     next() // login route is always  okay (we could use the requires auth flag below). prevent a redirect loop

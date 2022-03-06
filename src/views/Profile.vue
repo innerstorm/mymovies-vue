@@ -21,6 +21,10 @@
         </div>
       </div>
 
+      <div class="flex">
+        <pre>{{ user }}</pre>
+      </div>
+
       <div class="flex justify-between">
         <!-- <a href="" class="btn btn-primary">download data</a>
         <a href="" class="btn btn-outline">delete account</a> -->
@@ -30,39 +34,22 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import Header from "../components/Header.vue";
-import { auth } from '../firebase/config'
-import { getDatabase, get, child } from 'firebase/database'
 
 export default {
   name: "Profile",
   components: { Header },
 
   setup() {
-    const store = useStore();
-    const user = computed(() => store.state.user);
+    const store  = useStore()
+    const user   = computed(() => store.state.user)
+    const movies = computed(() => store.state.movies)
     
-    const userId = store.state.user.uid
-    
-    const dbRef = ref(getDatabase());
-    
-    get(child(dbRef, `users/${userId}`))
-        .then((snapshot) => {
-            
-            if (snapshot.exists()) {
-                console.log(snapshot.val());
-            } else {
-                console.log("No data available");
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-
     return {
       user,
+      movies
     };
   },
 }
