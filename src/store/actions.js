@@ -7,22 +7,10 @@ import {
 
 import { auth } from '../firebase/config'
 import router from "../router"
+import { getMyFancyGravatarURL } from "../functions"
 
-String.prototype.hashCode = function() {
-    var hash = 0, i, chr;
-    if (this.length === 0) return hash;
-    for (i = 0; i < this.length; i++) {
-        chr   = this.charCodeAt(i);
-        hash  = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-};
-const getMyFancyGravatarURL = (emailToHash) => {
-    // TODO: fallback
-    return `https://www.gravatar.com/avatar/${emailToHash.hashCode().toString().toLowerCase()}?s=640&d=robohash`;
-}
 
+import { getDatabase, ref, child, get } from "firebase/database";
 
 export default {
 
@@ -60,7 +48,7 @@ export default {
             // sync user to store
             context.commit('setUser', loggedInUser.user)
             context.commit('setLoggedIn', true)
-        
+            // get the data from firebase
         } else {
             throw new Error('login failed')
         }
@@ -70,7 +58,28 @@ export default {
     async userLogout(context) {
         await signOut(auth)
         context.commit('setUser', {})
+        context.commit('setMovies', {})
         context.commit('setLoggedIn', false)
         router.push('/login')
-    }
+    },
+
+    getMoviesSnapshot(context, userId) {
+
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `users/${userId}`)).then((snapshot) => {
+          if (snapshot.exists()) {
+
+            console.log(snapshot.val());
+            context.commit('setMovies', snapshot.val())
+
+          } else {
+
+            console.log("No data available");
+          }
+
+        }).catch((e) => {
+          console.log(e);
+        });
+
+    },
 }

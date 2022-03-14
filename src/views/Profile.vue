@@ -26,7 +26,7 @@
       </div>
 
       <div class="flex justify-between">
-        <!-- <a href="" class="btn btn-primary">download data</a>
+        <!-- <a href="" class="btn btn-primary">download movie data</a>
         <a href="" class="btn btn-outline">delete account</a> -->
       </div>
     </div>

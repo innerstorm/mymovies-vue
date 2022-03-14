@@ -9,7 +9,7 @@ const store = createStore({
         user: {},
         
         // the data
-        movies: [],
+        movies: {},
         
         // user's logged in state
         isLoggedIn: false
