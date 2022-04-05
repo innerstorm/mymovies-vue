@@ -1,7 +1,4 @@
-import { vuexfireMutations } from "vuexfire"
-
-export default {
-    ...vuexfireMutations,
+export default {    
 
     // set user object
     setUser(state, payload) {

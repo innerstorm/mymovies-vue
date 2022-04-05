@@ -4,16 +4,13 @@ import {
     updateProfile,
     signOut
 } from "firebase/auth"
-
 import { firebaseAction } from "vuexfire"
 
-import { auth } from '../firebase/config'
 import router from "../router"
 import { getMyFancyGravatarURL } from "../functions"
 
 
 export default {
-
     // create new user action
     userRegister(context, { email, password, username }) {
         // create user 
@@ -62,9 +59,5 @@ export default {
         context.commit('setLoggedIn', false)
         router.push('/login')
     },
-
-    bindMovies: firebaseAction(({ bindFirebaseRef }) => {
-        return bindFirebaseRef('movies', db.ref('movies'))
-      }  
-    ),
+ 
 }
