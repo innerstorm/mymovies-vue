@@ -50,7 +50,7 @@ export default {
 
                 const dbRef = ref(getDatabase())
 
-                get(child(dbRef, `users/${userId}`))
+                get(child(dbRef, `users/${userId}/movies`))
                     .then((snapshot) => {
                         if (snapshot.exists()) {
                             console.log(snapshot.val());
