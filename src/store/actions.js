@@ -5,12 +5,12 @@ import {
     signOut
 } from "firebase/auth"
 
+import { firebaseAction } from "vuexfire"
+
 import { auth } from '../firebase/config'
 import router from "../router"
 import { getMyFancyGravatarURL } from "../functions"
 
-
-import { getDatabase, ref, child, get } from "firebase/database";
 
 export default {
 
@@ -63,23 +63,8 @@ export default {
         router.push('/login')
     },
 
-    getMoviesSnapshot(context, userId) {
-
-        const dbRef = ref(getDatabase());
-        get(child(dbRef, `users/${userId}`)).then((snapshot) => {
-          if (snapshot.exists()) {
-
-            console.log(snapshot.val());
-            context.commit('setMovies', snapshot.val())
-
-          } else {
-
-            console.log("No data available");
-          }
-
-        }).catch((e) => {
-          console.log(e);
-        });
-
-    },
+    bindMovies: firebaseAction(({ bindFirebaseRef }) => {
+        return bindFirebaseRef('movies', db.ref('movies'))
+      }  
+    ),
 }

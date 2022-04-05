@@ -1,5 +1,5 @@
 import { createStore } from "vuex"
-import { mutations, vuexLocalStorage } from './mutations'
+import mutations from './mutations'
 import actions from './actions'
 
 const store = createStore({
@@ -9,7 +9,7 @@ const store = createStore({
         user: {},
         
         // the data
-        movies: {},
+        movies: [],
         
         // user's logged in state
         isLoggedIn: false
@@ -17,8 +17,6 @@ const store = createStore({
 
     actions,
     mutations,
-
-    plugins: [vuexLocalStorage.plugin]
 })
 
 export default store

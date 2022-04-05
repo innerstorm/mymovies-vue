@@ -20,7 +20,7 @@
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { auth, database } from '../firebase/config'
+import { auth, db } from '../firebase/config'
 import { onAuthStateChanged } from "firebase/auth";
 import { getDatabase, child, get, ref, onValue } from "firebase/database";
 
@@ -38,32 +38,32 @@ export default {
         //const user = computed(()=> store.state.user) 
         const dataIsLoading = false
 
-        const da = null
-
-   
-
-
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const userId = auth.currentUser.uid;
+                //const userRef = db.ref(`users/${userId}`);
 
-                const dbRef = ref(getDatabase())
 
-                get(child(dbRef, `users/${userId}/movies`))
+                const dbRef = ref(getDatabase());
+                
+                get(child(dbRef, 'movies'))
                     .then((snapshot) => {
                         if (snapshot.exists()) {
-                            console.log(snapshot.val());
-                            //context.commit('setMovies', snapshot.val())
+                            const moviesList = snapshot.val()
+                            //store.commit('setMovies', moviesList)
+                            console.log(moviesList)
+
                         } else {
-                            console.log("No data available");
+                            // no data
+                            console.log('no data')
                         }
                     })
-                    .catch((e) => {
-                        console.log(e);
+                    .catch((error) => {
+                        console.error(error);
                     });
 
-
+                    console.log(userId)
+   
             } else {
                 console.log('IS NOT')
             }
