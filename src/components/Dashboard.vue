@@ -18,12 +18,9 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { auth, db } from '../firebase/config'
-import { onAuthStateChanged } from "firebase/auth";
-import { getDatabase, child, get, ref, onValue } from "firebase/database";
-
+import { ref } from 'vue'
+import firebase from "firebase/app"
+import { useRouter } from 'vue-router'
 import Header from './Header.vue'
 import MoviesList from './MoviesList.vue'
 import MovieSearch from './MovieSearch.vue'
@@ -32,66 +29,31 @@ export default {
     name: 'Dashboard',
     components: { Header, MoviesList, MovieSearch },
     setup() {
+        const dataIsLoading = ref(true)
+        const router = useRouter()
 
-        const store = useStore()
-        const movies = computed(()=> store.state.movies)
-        //const user = computed(()=> store.state.user) 
-        const dataIsLoading = false
-
-        onAuthStateChanged(auth, (user) => {
+        firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                const userId = auth.currentUser.uid;
-                //const userRef = db.ref(`users/${userId}`);
-
-
-                const dbRef = ref(getDatabase());
-                
-                get(child(dbRef, 'movies'))
-                    .then((snapshot) => {
-                        if (snapshot.exists()) {
-                            const moviesList = snapshot.val()
-                            //store.commit('setMovies', moviesList)
-                            console.log(moviesList)
-
-                        } else {
-                            // no data
-                            console.log('no data')
-                        }
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-
-                    console.log(userId)
-   
+                const reference = firebase.database().ref(user.uid)
+                reference.on('value', (snapshot) => {
+                    if (snapshot.val() !== null) {
+                        // we do have movies
+                        console.log(snapshot.val())
+                        dataIsLoading.value = false
+                    } else {
+                        // no movies in the database
+                        console.log('no movies')
+                        dataIsLoading.value = false
+                    }
+                })
+                // ...
             } else {
-                console.log('IS NOT')
+                // User is signed out
+                router.push('/login')
             }
-        })
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // load the data on page load
-        const moviesList = movies
+        });
 
         return {
-            moviesList,
             dataIsLoading
         }
     },

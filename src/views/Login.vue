@@ -87,7 +87,7 @@ export default {
             } 
             catch (e) {
                 // handle error codes to write correct error messages
-                // console.log(e)
+                console.log(e)
 
                 isLoading.value = false
                     
@@ -107,7 +107,7 @@ export default {
                         errorMessage.value = 'Default error'
                         break
                 }
-                //console.error('ERROR: \n', e.message)
+                
             }
         }
 

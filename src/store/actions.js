@@ -1,61 +1,63 @@
-import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile,
-    signOut
-} from "firebase/auth"
-import { firebaseAction } from "vuexfire"
-
+import '../firebase/config'
+import firebase from 'firebase'
 import router from "../router"
 import { getMyFancyGravatarURL } from "../functions"
 
-
 export default {
+
     // create new user action
     userRegister(context, { email, password, username }) {
-        // create user 
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((newUser) => {
-            // if user is created
-            if (newUser) {
-                // "update" newly created user with username and avatar
-                updateProfile(auth.currentUser, {
-                    displayName: username, 
-                    photoURL: getMyFancyGravatarURL(email)
-                })
-                .then(() => { 
-                    context.commit('setUser', newUser.user)
-                    context.commit('setLoggedIn', true)
-                    console.log('Profile updated!') 
-                    
-                })
-                .catch((error) => { console.log('An error occured: ', error) });
-            }
-
-        }).catch((error) => {
-            console.log('create user failed: ', error);
-        })
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(credentials => {
+                // get user info
+                if (credentials) {
+                    credentials.user.updateProfile({
+                        displayName: username,
+                        photoURL: getMyFancyGravatarURL(email)
+                    })
+                    .then(() => {
+                        context.commit('setUser', credentials.user)
+                        context.commit('setLoggedIn', true)
+                        console.log('Profile updated!') 
+                    })
+                }
+            })
+            .catch(error => {
+                // the fetch is nyeaaaah
+                console.log(error)
+            })
     },
 
     // login user action
     async userLogin(context, { email, password }) {
-        const loggedInUser = await signInWithEmailAndPassword(auth, email, password)
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
 
-        if (loggedInUser) {
-            // sync user to store
-            context.commit('setUser', loggedInUser.user)
-            context.commit('setLoggedIn', true)
-            // get the data from firebase
-        } else {
-            throw new Error('login failed')
-        }
+                // sync user to store
+                context.commit('setUser', user)
+                // change the store state
+                context.commit('setLoggedIn', true)
+                // ...
+
+            })
+            .catch((error) => {
+                console.log(error)
+                var errorCode = error.code;
+                var errorMessage = error.message;
+            });
     },
 
     // sign out user action
     async userLogout(context) {
-        await signOut(auth)
+        firebase.auth().signOut()
         context.commit('setUser', {})
-        context.commit('setMovies', {})
+        //context.commit('setMovies', {})
         context.commit('setLoggedIn', false)
         router.push('/login')
     },
