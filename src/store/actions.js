@@ -56,9 +56,11 @@ export default {
     // sign out user action
     async userLogout(context) {
         firebase.auth().signOut()
+        // TODO: maybe we can put it in a separate block
         context.commit('setUser', {})
-        //context.commit('setMovies', {})
+        context.commit('setMovies', {})
         context.commit('setLoggedIn', false)
+        context.commit('setFromLogin', false)
         router.push('/login')
     },
  

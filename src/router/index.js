@@ -56,10 +56,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log('router', '\nis logged in',store.state.isLoggedIn, '\nto: ', to.name)
+  console.log('router | from:', from.name, 'to:', to.name, 'next:', next.name, '\nis logged in:',store.state.isLoggedIn)
   
+  // when coming from the login page, we get the movies from firebase to store
+  if (from.name == 'Login' && to.name == 'Dashboard') {
+    store.commit('setFromLogin', true)
+  }
+
   if (to.name === 'Login') {
-    next() // login route is always  okay (we could use the requires auth flag below). prevent a redirect loop
+    next() // login route is always okay (we could use the requires auth flag below). prevent a redirect loop
   } else if (to.meta && to.meta.requiresAuth === false) {
     next() // requires auth is explicitly set to false
   } else if (store.state.isLoggedIn) {

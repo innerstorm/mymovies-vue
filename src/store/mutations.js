@@ -6,13 +6,23 @@ export const vuexLocalStorage = new VuexPersistence({
 })
 
 export default {    
-
-    // set user object
     setUser(state, payload) {
         state.user = payload
     },
     setLoggedIn(state, payload) {
         state.isLoggedIn = payload
+    },
+    setFromLogin(state, payload) {
+        state.fromLogin = payload
+    },
+    setMovies(state, payload) {
+        state.movies = payload
+    },
+    setSearchResults(state, payload) {
+        state.searchResults = payload
+    },
+    setSearchTerm(state, payload) {
+        state.searchTerm = payload
     },
 
     RESTORE_MUTATION: vuexLocalStorage.RESTORE_MUTATION

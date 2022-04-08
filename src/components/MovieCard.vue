@@ -1,5 +1,5 @@
 <template>
-    <div class="movie-card relative z-0" @click="handleClick">
+    <div class="movie-card relative z-0" @click="handleClick" :id="movie.imdbID">
         <img :src="movie.Poster" alt="">
         <div class="overlay absolute z-10 left-0 top-0 w-full h-full">
             <h4>{{ movie.Title }}</h4>
@@ -24,12 +24,10 @@ export default {
 
         return { handleClick }
     }
-
-    
 }
 </script>
 
-<style>
+<style lang="scss">
     .movie-card {
         @apply rounded rounded-lg overflow-hidden bg-grey-dark;
         box-shadow: 0 3px 10px 0 rgba(0,0,0,.75);
@@ -38,6 +36,7 @@ export default {
     .movie-card img {
         width: 100%;
         height: auto;
+        aspect-ratio: 30/45;
     }
 
     .movie-card .overlay {
@@ -48,7 +47,6 @@ export default {
         transition: opacity .125s ease-in-out;
         cursor: pointer;
         user-select: none;
-
     }
 
     .movie-card:hover img {

@@ -1,9 +1,9 @@
 <template>
     <section class="page-content page-movies-list">
-        <!-- <h1 class="font-thin">{{ numberOfMovies }} Movies</h1> -->
+        <h1 class="font-thin">{{ numberOfMovies }} Movies</h1>
 
         <!-- movie list header -->
-        <div class="my-10 flex flex-nowrap justify-between items-center">
+        <!-- <div class="my-10 flex flex-nowrap justify-between items-center">
             <div>
                 <div class="btn-group">
                     <button class="btn">1</button> 
@@ -21,32 +21,40 @@
                     </ul>
                     </div> 
             </div>
-        </div>
+        </div> -->
 
-        <!-- the list of movie cards -->
-        <div class="movies-list flex flex-wrap" v-if="!searchTerm">
-            <div v-for="movie in moviesList" :key="movie.title" class="movie-list-item pb-8 px-4 sm:w-1/3 md:w-1/8 lg:w-1/4 xl:w-1/6">
-                <MovieCard :movie="movie" />
-            </div>
-        </div>
+
+
+        <List :movies="movies" v-if="!searchTerm" />
+        <List :movies="searchResults" v-else />
 
     </section>
 </template>
 
 <script>
-import MovieCard from './MovieCard.vue'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import List from './List.vue'
 
 export default {
-    components: { MovieCard },
-    props: ['moviesList'],
     name: 'MoviesList',
+    components: { List },
+
+    setup() {
+        const store = useStore()
+        const movies = ref(store.state.movies)
+
+        return {
+            movies, 
+            numberOfMovies: computed(() => movies.value.length),
+            searchTerm: computed(() => store.state.searchTerm),
+            searchResults: computed(() => store.state.searchResults),
+        }
+    }
 }
 
 </script>
 
 <style>
-    .movies-list {
-        margin-left: -1rem;
-        margin-right: -1rem;;
-    }
+    
 </style>

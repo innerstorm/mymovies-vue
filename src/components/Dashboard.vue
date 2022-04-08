@@ -10,7 +10,7 @@
         </div>
 
         <div v-else>
-            <MoviesList :moviesList="moviesList"/>
+            <MoviesList />
         </div>
 
         
@@ -21,6 +21,8 @@
 import { ref } from 'vue'
 import firebase from "firebase/app"
 import { useRouter } from 'vue-router'
+import store from '../store'
+
 import Header from './Header.vue'
 import MoviesList from './MoviesList.vue'
 import MovieSearch from './MovieSearch.vue'
@@ -29,16 +31,27 @@ export default {
     name: 'Dashboard',
     components: { Header, MoviesList, MovieSearch },
     setup() {
+
         const dataIsLoading = ref(true)
         const router = useRouter()
 
-        firebase.auth().onAuthStateChanged((user) => {
+        console.log('enter dashboard\n from login:', store.state.fromLogin)
+
+        firebase.auth().onAuthStateChanged(async (user) => {
+
             if (user) {
-                const reference = firebase.database().ref(user.uid)
+
+                const reference = await firebase.database().ref(user.uid)
+                
                 reference.on('value', (snapshot) => {
                     if (snapshot.val() !== null) {
                         // we do have movies
-                        console.log(snapshot.val())
+
+                        const moviesArray = Object.values(JSON.parse(JSON.stringify(snapshot.val().movies)))
+
+                        // store in store
+                        store.commit('setMovies', moviesArray)
+
                         dataIsLoading.value = false
                     } else {
                         // no movies in the database
@@ -54,7 +67,7 @@ export default {
         });
 
         return {
-            dataIsLoading
+            dataIsLoading,
         }
     },
 }

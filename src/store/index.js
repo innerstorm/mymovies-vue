@@ -1,6 +1,7 @@
 import { createStore } from "vuex"
 import mutations from './mutations'
 import actions from './actions'
+import getters from './getters'
 import { VuexPersistence } from "vuex-persist"
 
 // local storage saves vuex state
@@ -15,12 +16,22 @@ const store = createStore({
         user: {},
         
         // the datas
-        movies: [],
+        movies: {},
         
-        // user's logged in state in store
-        isLoggedIn: false
-    },
+        // search results
+        searchResults: {},
 
+        // the string of the searched movie
+        searchTerm: '',
+
+        // user's logged in state in store
+        isLoggedIn: false,
+
+        // coming from login or register
+        fromLogin: false,
+        
+    },
+    getters,
     actions,
     mutations,
 

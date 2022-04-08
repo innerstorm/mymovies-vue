@@ -83,6 +83,7 @@ export default {
                     email: email.value,
                     password: password.value
                 })
+                console.log('login success')
                 router.push('/dashboard')
             } 
             catch (e) {
