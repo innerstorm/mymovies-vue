@@ -23,11 +23,8 @@
             </div>
         </div> -->
 
-
-
         <List :movies="movies" v-if="!searchTerm" />
         <List :movies="searchResults" v-else />
-
     </section>
 </template>
 

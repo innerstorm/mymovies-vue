@@ -16,10 +16,11 @@
 export default {
     name: 'Moviecard',
     props: ['movie'],
+    emits: ['showModal'],
 
-    setup (props) {
+    setup (props, context) {
         const handleClick = () => {
-            console.log(props.movie.Title)
+            context.emit('showModal')
         }
 
         return { handleClick }
