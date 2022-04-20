@@ -1,7 +1,7 @@
 <template>
     <div class="vue-modal" v-show="show">
         <div class="vue-modal-overlay" @click="closeModal"></div>
-        <div class="vue-modal-window flex">
+        <div class="vue-modal-window flex" @keydown.esc="closeModal">
                 <button class="btn btn-close" @click="closeModal">
                     <vue-feather type="x" class=""></vue-feather>
                 </button>
@@ -46,7 +46,6 @@ export default {
 
         return {
             closeModal() {
-                console.log('close modal window')
                 document.querySelector("body").classList.remove("modal-visible");
                 context.emit('closeModal')
             },
@@ -72,7 +71,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.75);
     z-index: 100;
 }
 
@@ -85,8 +84,9 @@ export default {
     max-width: 960px;
     max-height: 90%;
     background-color: #000;
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.75);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 0 100px -10px rgba(128, 120, 110, .75);
     z-index: 101;
 }
 

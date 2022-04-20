@@ -1,5 +1,5 @@
 <template>
-    <section class="page-content page-movies-list">
+    <section class="page-content movies-list">
         <h1 class="font-thin">{{ numberOfMovies }} Movies ({{ Math.floor(sumOfRuntime/60) }} hours)</h1>
 
         <!-- movie list header -->

@@ -4,7 +4,7 @@
     <MovieSearch />
 
 
-    <div class="container mx-auto page-content page-home">
+    <div class="container mx-auto page-content dashboard">
         <div v-if="dataIsLoading">
             loading...
         </div>
@@ -58,7 +58,7 @@ export default {
 
                         // loading of movies successfully failed :P
                         dataIsLoading.value = false
-                        
+
                     } else {
                         // no movies in the database
                         console.log('no movies')

@@ -40,6 +40,7 @@ export default {
             movieDetails.value = data
             console.log('list show\n', movieDetails.value)
             showModal.value = true
+            document.querySelector("body").classList.add("modal-visible");
         }
 
         const closeMovieDetails = () => {

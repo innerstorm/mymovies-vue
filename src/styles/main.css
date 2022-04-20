@@ -4,8 +4,14 @@
 
 html, body {
     height: 100%;
-    min-height: 100%;
-    
+    min-height: 100%;   
+}
+
+body.modal-visible {
+    overflow: hidden;
+}
+
+body.modal-visible .movies-list .movies-list {
 }
 
 #app {
