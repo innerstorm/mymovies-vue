@@ -28,7 +28,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
     .movie-card {
         @apply rounded rounded-lg overflow-hidden bg-grey-dark;
         box-shadow: 0 3px 10px 0 rgba(0,0,0,.75);

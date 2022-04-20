@@ -8,7 +8,11 @@
         </div>
     </div> 
 
-    <MovieCardModal :movie="movieDetails" />
+    <MovieCardModal 
+        :movie="movieDetails" 
+        :show="showModal"
+        @close-modal="closeMovieDetails"
+    />
 </template>
 
 <script>
@@ -25,7 +29,8 @@ export default {
 
     setup() {
 
-        const movieDetails = ref(null)
+        const movieDetails = ref({})
+        const showModal = ref(false)
 
         const go = () => {
             console.log('go')
@@ -34,12 +39,20 @@ export default {
         const showMovieDetails = (data) => {
             movieDetails.value = data
             console.log('list show\n', movieDetails.value)
+            showModal.value = true
+        }
+
+        const closeMovieDetails = () => {
+            console.log('modal close\n', movieDetails.value)
+            showModal.value = false
         }
 
         return {
             go,
             showMovieDetails,
-            movieDetails
+            closeMovieDetails,
+            movieDetails,
+            showModal,
         }
     }
 }
@@ -48,7 +61,7 @@ export default {
 <style>
 .movies-list {
         margin-left: -1rem;
-        margin-right: -1rem;;
+        margin-right: -1rem;
     }
 </style>
 
