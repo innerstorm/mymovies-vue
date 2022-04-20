@@ -1,6 +1,6 @@
 <template>
     <section class="page-content page-movies-list">
-        <h1 class="font-thin">{{ numberOfMovies }} Movies</h1>
+        <h1 class="font-thin">{{ numberOfMovies }} Movies ({{ Math.floor(sumOfRuntime/60) }} hours)</h1>
 
         <!-- movie list header -->
         <!-- <div class="my-10 flex flex-nowrap justify-between items-center">
@@ -43,6 +43,11 @@ export default {
 
         return {
             movies, 
+            sumOfRuntime: computed(() => {
+                return movies.value.reduce((sum, movie) => {
+                    return sum + parseInt(movie.Runtime.replace(/\D/g, ''))
+                }, 0)
+            }),
             numberOfMovies: computed(() => movies.value.length),
             searchTerm: computed(() => store.state.searchTerm),
             searchResults: computed(() => store.state.searchResults),

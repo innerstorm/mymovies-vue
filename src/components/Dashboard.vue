@@ -47,12 +47,18 @@ export default {
                     if (snapshot.val() !== null) {
                         // we do have movies
 
-                        const moviesArray = Object.values(JSON.parse(JSON.stringify(snapshot.val().movies)))
-
-                        // store in store
+                        // convert object to array
+                        let moviesArray = Object.values(JSON.parse(JSON.stringify(snapshot.val().movies)))
+                        
+                        // reverse order of array
+                        moviesArray = moviesArray.slice().reverse()
+                        
+                        // store movies data in store
                         store.commit('setMovies', moviesArray)
 
+                        // loading of movies successfully failed :P
                         dataIsLoading.value = false
+                        
                     } else {
                         // no movies in the database
                         console.log('no movies')

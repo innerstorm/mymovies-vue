@@ -1,34 +1,35 @@
 <template>
     <div class="vue-modal" v-show="show">
-        <div class="vue-modal-overlay" @click="closeModal">
-            <div class="vue-modal-window">
-                <button class="btn btn-close" @click="closeModal()">
-                    <vue-feather type="x" size="20" class="ml-2"></vue-feather>
+        <div class="vue-modal-overlay" @click="closeModal"></div>
+        <div class="vue-modal-window flex">
+                <button class="btn btn-close" @click="closeModal">
+                    <vue-feather type="x" class=""></vue-feather>
                 </button>
-                <div>
+                <div class="w-1/3">
                     <img :src="movie.Poster" :alt="movie.Title" class="poster">
                 </div>
-                <div class="vue-modal-body">
-                    <h2>{{ movie.Title }}</h2>
-                    <p>{{ movie.Year }}</p>
-                    <p>{{ movie.Genre }}</p>
-                    <p><strong>Director:</strong>{{ movie.Director }}</p>
-                    <p><strong>Actors:</strong> {{ movie.Actors }}</p>
 
-                    <div>
-                        <span class="badge">{{ movie.imdbRating }}</span>
-                        <span class="badge">{{ movie.Rated }}</span>
+                <div class="w-2/3 p-4">
+                    <h2 class="mb-3">{{ movie.Title }}</h2>
+
+                    <div class="mb-4">
+                        <span class="badge">{{ movie.imdbRating }}</span>&nbsp;
+                        <span class="badge">{{ movie.Rated }}</span>&nbsp;
+                        <span class="badge">{{ movie.Runtime }}</span>&nbsp;
                         <span class="badge">{{ movie.Genre }}</span>
                     </div>
-                    <div class="p-6">
+
+                    <div class="mb-4">
+                        <p>{{ movie.Year }}</p>
+                        <p class="mb-2"><strong>Director:</strong><br>{{ movie.Director }}</p>
+                        <p><strong>Actors:</strong><br>{{ movie.Actors }}</p>
+                    </div>
+
+                    <div class="text-sm leading-6">
                         {{ movie.Plot }}
                     </div>
                 </div>
-                <div class="vue-modal-footer">
-                </div>
             </div>
-        </div>
-
     </div>
 </template>
 
@@ -40,6 +41,9 @@ export default {
     props: ['movie', 'show'],
 
     setup(props, context) {
+
+        console.log(props.movie)
+
         return {
             closeModal() {
                 console.log('close modal window')
@@ -78,11 +82,26 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    max-width: 800px;
+    max-width: 960px;
     max-height: 90%;
     background-color: #000;
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.75);
     z-index: 101;
 }
+
+.btn-close {
+    position: absolute;
+    z-index: 102;
+    top: .5rem;
+    right: .5rem;
+    padding: .25rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+
 </style>
