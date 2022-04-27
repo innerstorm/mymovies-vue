@@ -22,6 +22,12 @@ export default {
         }
     },
 
+    getMovieByTitle(state) {    
+        return (title) => {
+            return state.movies.find(movie => movie.title === title)
+        }
+    },
+
     getNumberOfMovies(state) {
         return state.movies.length
     },

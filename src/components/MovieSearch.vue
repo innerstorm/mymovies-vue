@@ -7,14 +7,13 @@
             autocomplete="false"
             class="input input-lg input-bordered w-full" 
             placeholder="search movie title..."
-            >
+            @keydown.enter="searchMovie"
+        >
     </div>
 
     <div class="my-10" v-if="searchTerm">
         <h2 class="font-thin">{{ numberOfSearchResults }} results for: <span class="font-bold">{{ searchTerm }}</span></h2> 
     </div>
-
-    <!-- <List :movies="searchResults" v-if="searchTerm" /> -->
 
 </div>
 </template>
@@ -23,6 +22,8 @@
 import { ref, watch, computed } from 'vue'
 import { useStore } from 'vuex'
 import List from './List.vue'
+
+import { OMDB_API } from '../config/omdb'
 
 export default {
     components: { List },
@@ -44,8 +45,34 @@ export default {
             store.commit('setSearchResults', filterMoviesByTitle(store.state.movies, newValue))
         })  
 
+        const fetchOMDB = async (searchTerm) => {
+
+            //${omdb_api_url}?s=${q}&plot=short&type=movie&apikey=${omdb_api_key}
+
+            const response = await fetch(`${OMDB_API.api_url}/?apikey=${OMDB_API.api_key}&s=${searchTerm}`)
+            const data = await response.json()
+            return data
+        }
+
+        const searchMovie = () => {
+            console.log('SEARCH: ',searchTerm.value)
+            fetchOMDB(searchTerm.value).then(data => {
+                if (data.Response == "True") {
+                    console.log('\nDATA: ', data)
+                } else {
+                    console.log('\nNO DATA')
+                }
+
+
+                
+                //store.commit('setSearchResults', data.Search)
+                //store.commit('setNumberOfSearchResults', data.totalResults)
+            })
+        }
+
         return {
             searchTerm,
+            searchMovie,
             numberOfSearchResults: computed(() => store.state.searchResults.length),
             searchResults: computed(() => store.state.searchResults),
         }
