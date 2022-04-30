@@ -1,7 +1,7 @@
 <template>
     <div class="vue-modal" v-show="show">
         <div class="vue-modal-overlay" @click="closeModal"></div>
-        <div class="vue-modal-window flex" @keydown.esc="closeModal">
+        <div class="vue-modal-window flex bg-base-300" @keydown.esc="closeModal">
                 <button class="btn btn-close" @click="closeModal">
                     <vue-feather type="x" class=""></vue-feather>
                 </button>
@@ -83,7 +83,6 @@ export default {
     width: 90%;
     max-width: 960px;
     max-height: 90%;
-    background-color: #000;
     border-radius: 1rem;
     overflow: hidden;
     box-shadow: 0 0 100px -10px rgba(128, 120, 110, .75);

@@ -24,6 +24,9 @@ export default {
     setSearchTerm(state, payload) {
         state.searchTerm = payload
     },
+    selectMovie(state, payload) {
+        state.selectedMovie = payload
+    },
 
     RESTORE_MUTATION: vuexLocalStorage.RESTORE_MUTATION
 }

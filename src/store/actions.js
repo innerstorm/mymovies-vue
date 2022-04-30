@@ -63,5 +63,10 @@ export default {
         context.commit('setFromLogin', false)
         router.push('/login')
     },
+
+    selectMovie(movie) {
+        console.log(movie.Title)
+    }
+
  
 }

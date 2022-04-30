@@ -6,10 +6,10 @@
         <div class="my-10 flex flex-nowrap items-center">
             <div class="mr-3">
                 <div class="btn-group">
-                    <button class="btn">
+                    <button class="btn" @click="movieListLayout = 'cards'">
                         <vue-feather type="grid" size="20" class="ml-2"></vue-feather>
                     </button> 
-                    <button class="btn">
+                    <button class="btn" @click="movieListLayout = 'list'">
                         <vue-feather type="list" size="20" class="ml-2"></vue-feather>
                     </button> 
                 </div>
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <List :movies="movies" v-if="!searchTerm" />
+        <List :movies="movies" :layout="movieListLayout" v-if="!searchTerm" />
         <List :movies="searchResults" v-else />
     </section>
 </template>
@@ -47,15 +47,18 @@ export default {
     setup() {
         const store = useStore()
         const movies = ref(store.state.movies)
+        const movieListLayout = ref('cards')
 
         const selectSorting = (e) => {
             console.log('lol')
         }
 
+        
+
         return {
             movies, 
             selectSorting,
-
+            movieListLayout,
             sumOfRuntime: computed(() => {
                 return movies.value.reduce((sum, movie) => {
                     return sum + parseInt(movie.Runtime.replace(/\D/g, ''))
