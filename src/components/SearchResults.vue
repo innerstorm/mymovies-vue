@@ -1,21 +1,32 @@
 <template>
-    <div class="movie-search-results-wrapper" v-if="newSearchResults.totalResults > 0">
-        <div class="overlay" @click="closeSearchWindow"></div>
-        <div class="search-results-list" @keypress.esc="closeSearchWindow">
-            <div class="flex justify-between mb-3">
+    <modal
+        :show="newSearchResults.totalResults > 0"
+        @close-modal="closeSearchWindow"
+    >
+        <template #header>
+            <div class="flex justify-between">
                 <div class="text-bold">Select movie</div>
-                <div>{{ newSearchResults.totalResults }} total results found for: {{ searchTerm }}</div>
+                <div>
+                    {{ newSearchResults.totalResults }} total results found for:
+                    {{ searchTerm }}
+                </div>
             </div>
-            <div class="flex flex-wrap">
-                <div 
-                    v-for="result in newSearchResults.Search" 
-                    :key="result.imdbID" 
+        </template>
+        <template #body>
+            <div class="search-results-list">
+                <div
+                    v-for="result in newSearchResults.Search"
+                    :key="result.imdbID"
                     :id="result.imdbID"
                     class="item w-1/5"
                     @click="selectMovie(result)"
                 >
                     <div class="search-result-item">
-                        <img :src="result.Poster" :alt="result.Title" class="search-result-item-image">
+                        <img
+                            :src="result.Poster"
+                            :alt="result.Title"
+                            class="search-result-item-image"
+                        />
                         <div class="search-result-item-data">
                             {{ result.Title }}
                             <small>{{ result.Year }}</small>
@@ -23,105 +34,86 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-3">
-                <button>
-                    <vue-feather type="refresh-cw" size="20" class=""></vue-feather>
+        </template>
+        <template #footer>
+            <div class="p-4 flex justify-end">
+                <button class="btn btn-primary">
+                    next 10 Movies
+                    <vue-feather
+                        type="arrow-right"
+                        size="20"
+                        class="pl-2"
+                    ></vue-feather>
                 </button>
             </div>
-        </div>
-    </div>
-    
+        </template>
+    </modal>
 </template>
 
 <script>
+import { ref } from "vue";
+import Modal from "./Modal.vue";
+
 export default {
-    props: ['searchTerm', 'newSearchResults'],
-    emits: ['selectMovie'],
+    props: ["searchTerm", "newSearchResults"],
+    emits: ["selectMovie"],
+    components: {
+        Modal,
+    },
 
     setup(props, context) {
-
         const closeSearchWindow = () => {
             document.querySelector("body").classList.remove("search-visible");
-            //context.emit('closeSearchWindow')
-            console.log('closeSearchWindow')
-            newSearchResults = {}
-        }
+
+            console.log("close Search Window");
+            props.newSearchResults.value = {};
+            props.newSearchResults.totalResults = 0;
+        };
 
         return {
             closeSearchWindow,
-
             selectMovie(movie) {
-                console.log('emit')
-                context.emit('selectMovie', movie)
-            }
-        }
-    }
-}
+                console.log("emit", movie.Title);
+                context.emit("selectMovie", movie);
+            },
+        };
+    },
+};
 </script>
 
-<style>
-.movie-search-results-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 2;
-}
-
-.movie-search-results-wrapper .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.75);
-    z-index: 2;
-
+<style scoped>
+.modal-header {
+    padding: 1.33rem 4rem 1rem 1rem;
 }
 
 .search-results-list {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background-color: #000;
-    position: absolute;
-    z-index: 100;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 960px;
-    max-height: 90%;
-    border-radius: 1rem;
-    overflow: hidden;
-}
-
-.search-results-list > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .search-results-list .item {
-    padding: .5rem;
+    padding: 0.5rem;
     cursor: pointer;
-    padding: .5rem;
+    padding: 0.5rem;
 }
 
 .search-result-item {
     position: relative;
     z-index: 1;
     overflow: hidden;
-    border-radius: .5rem;    
-    background-color: rgba(255,255,255,.1);
+    border-radius: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
     background-image: url(../assets/no-poster.jpg);
     background-size: cover;
 }
 
-.search-results-list .item img {
+.search-result-item img {
     aspect-ratio: 30/45;
 }
 
 .search-result-item-data {
-    padding: .5rem;
-    
+    padding: 0.5rem;
     color: #fff;
     font-weight: bold;
     position: absolute;
@@ -135,7 +127,7 @@ export default {
     align-items: center;
     text-align: center;
     z-index: 2;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0, 0, 0, 0.9);
     opacity: 0;
 }
 

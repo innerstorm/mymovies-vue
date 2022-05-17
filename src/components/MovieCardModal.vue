@@ -1,57 +1,62 @@
 <template>
     <div class="vue-modal" v-show="show">
         <div class="vue-modal-overlay" @click="closeModal"></div>
-        <div class="vue-modal-window flex bg-base-300" @keydown.esc="closeModal">
-                <button class="btn btn-close" @click="closeModal">
-                    <vue-feather type="x" class=""></vue-feather>
-                </button>
-                <div class="w-1/3">
-                    <img :src="movie.Poster" :alt="movie.Title" class="poster">
+        <div
+            class="vue-modal-window flex bg-base-300"
+            @keydown.esc="closeModal"
+        >
+            <button class="btn btn-close" @click="closeModal">
+                <vue-feather type="x" class=""></vue-feather>
+            </button>
+            <div class="w-1/3">
+                <img :src="movie.Poster" :alt="movie.Title" class="poster" />
+            </div>
+
+            <div class="w-2/3 p-4">
+                <h2 class="mb-3">{{ movie.Title }}</h2>
+
+                <div class="mb-4">
+                    <span class="badge">{{ movie.imdbRating }}</span
+                    >&nbsp; <span class="badge">{{ movie.Rated }}</span
+                    >&nbsp; <span class="badge">{{ movie.Runtime }}</span
+                    >&nbsp;
+                    <span class="badge">{{ movie.Genre }}</span>
                 </div>
 
-                <div class="w-2/3 p-4">
-                    <h2 class="mb-3">{{ movie.Title }}</h2>
+                <div class="mb-4">
+                    <p>{{ movie.Year }}</p>
+                    <p class="mb-2">
+                        <strong>Director:</strong><br />{{ movie.Director }}
+                    </p>
+                    <p><strong>Actors:</strong><br />{{ movie.Actors }}</p>
+                </div>
 
-                    <div class="mb-4">
-                        <span class="badge">{{ movie.imdbRating }}</span>&nbsp;
-                        <span class="badge">{{ movie.Rated }}</span>&nbsp;
-                        <span class="badge">{{ movie.Runtime }}</span>&nbsp;
-                        <span class="badge">{{ movie.Genre }}</span>
-                    </div>
-
-                    <div class="mb-4">
-                        <p>{{ movie.Year }}</p>
-                        <p class="mb-2"><strong>Director:</strong><br>{{ movie.Director }}</p>
-                        <p><strong>Actors:</strong><br>{{ movie.Actors }}</p>
-                    </div>
-
-                    <div class="text-sm leading-6">
-                        {{ movie.Plot }}
-                    </div>
+                <div class="text-sm leading-6">
+                    {{ movie.Plot }}
                 </div>
             </div>
+        </div>
     </div>
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-
 export default {
-    emits: ['closeModal'],
-    props: ['movie', 'show'],
+    emits: ["closeModal"],
+    props: ["movie", "show"],
 
     setup(props, context) {
-
-        console.log(props.movie)
+        console.log(props.movie);
 
         return {
             closeModal() {
-                document.querySelector("body").classList.remove("modal-visible");
-                context.emit('closeModal')
+                document
+                    .querySelector("body")
+                    .classList.remove("modal-visible");
+                context.emit("closeModal");
             },
-        }
-    }
-}
+        };
+    },
+};
 </script>
 
 <style>
@@ -85,22 +90,20 @@ export default {
     max-height: 90%;
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 0 100px -10px rgba(128, 120, 110, .75);
+    box-shadow: 0 0 100px -10px rgba(128, 120, 110, 0.75);
     z-index: 101;
 }
 
 .btn-close {
     position: absolute;
     z-index: 102;
-    top: .5rem;
-    right: .5rem;
-    padding: .25rem;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem;
     width: 3rem;
     height: 3rem;
     background-color: transparent;
     border: 0;
     cursor: pointer;
 }
-
-
 </style>
