@@ -1,61 +1,56 @@
 <template>
   <Header />
   <div class="container mx-auto page-content page-profile">
-
-    <div v-if="isUserLoggedIn">
-
+    <div>
       <div class="sub-head flex flex-nowrap items-center justify-between">
-        <h1 class="inline">Hello, {{ $store.state.user.displayName }}</h1>
-        <!-- <a href="" class="btn">settings</a>   -->
+        <h1 class="inline">Hello, {{ user.displayName }}</h1>
       </div>
-      
+
       <div class="flex items-center">
         <div class="avatar w-40 mr-5">
-          <img :src="$store.state.user.photoURL" alt="avatar" class="rounded-full">
+          <img :src="user.photoURL" alt="avatar" class="rounded-full" />
         </div>
 
         <div>
           <ul>
-            <li><strong>uid:</strong> {{ $store.state.user.uid }}</li>
-            <li><strong>Username:</strong> {{ $store.state.user.displayName }}</li>
-            <li><strong>Email address:</strong> {{ $store.state.user.email }}</li>
-            <li><strong>Last login time:</strong> {{ $store.state.user.metadata.lastSignInTime }}</li>
+            <li><strong>uid:</strong> {{ user.uid }}</li>
+            <li><strong>Username:</strong> {{ user.displayName }}</li>
+            <li><strong>Email address:</strong> {{ user.email }}</li>
+            <!-- <li><strong>Last login time:</strong> {{ user.metadata.lastSignInTime }}</li> -->
           </ul>
         </div>
       </div>
-      
-      <div class="flex justify-between">
-        <!-- <a href="" class="btn btn-primary">download data</a>
-        <a href="" class="btn btn-outline">delete account</a> -->
+
+      <div class="flex">
+        <pre>{{ user }}</pre>
       </div>
 
+      <div class="flex justify-between">
+        <!-- <a href="" class="btn btn-primary">download movie data</a>
+        <a href="" class="btn btn-outline">delete account</a> -->
+      </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import Header from '../components/Header.vue'
+import { computed } from "vue";
+import { useStore } from "vuex";
+import Header from "../components/Header.vue";
 
 export default {
-  name: 'Profile',
+  name: "Profile",
   components: { Header },
 
-  data() {
+  setup() {
+    const store  = useStore()
+    const user   = computed(() => store.state.user)
+    const movies = computed(() => store.state.movies)
+    
     return {
-      isUserLoggedIn: false
-    }
+      user,
+      movies
+    };
   },
-
-  created() {
-    this.isUserLoggedIn = this.$store.state.user !== null
-    if (!this.isUserLoggedIn) {
-      this.$router.push('/login')
-    }
-  }
 }
 </script>
-
-<style>
-
-</style>

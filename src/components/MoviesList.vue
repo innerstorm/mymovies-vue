@@ -1,33 +1,28 @@
 <template>
-    <section class="page-content page-movies-list">
-        <h1 class="font-thin">{{ numberOfMovies }} Movies</h1>
+    <section class="page-content movies-list">
+        <h1 class="font-thin">{{ numberOfMovies }} Movies ({{ Math.floor(sumOfRuntime/60) }} hours)</h1>
 
-        <div class="mb-8">
-            <input 
-                v-model="searchTerm" 
-                type="text" 
-                class="input input-lg input-bordered w-full" 
-                placeholder="search movie title..."
-                >
-        </div>
-
-        <div class="my-10" v-if="searchTerm">
-            <h2 class="font-thin">{{ numberOfSearchResults }} results for: <span class="font-bold">{{ searchTerm }}</span></h2> 
-        </div>
-
-        <div class="my-10 flex flex-nowrap justify-between items-center">
-            <div>
+        <!-- movie list header -->
+        <div class="my-10 flex flex-nowrap items-center">
+            <div class="mr-3">
                 <div class="btn-group">
-                    <button class="btn">Normal</button> 
-                    <button class="btn">Normal</button> 
-                    <button class="btn">Normal</button> 
+                    <button class="btn" @click="movieListLayout = 'cards'">
+                        <vue-feather type="grid" size="20" class="ml-2"></vue-feather>
+                    </button> 
+                    <button class="btn" @click="movieListLayout = 'list'">
+                        <vue-feather type="list" size="20" class="ml-2"></vue-feather>
+                    </button> 
                 </div>
             </div>
 
             <div>
                <div class="dropdown  dropdown-end  dropdown-hover">
-                    <div tabindex="0" class="m-1 btn">Sorting <vue-feather type="chevron-down" size="20" class="ml-2"></vue-feather></div> 
-                    <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
+                    <div tabindex="0" class="m-1 btn">
+                        Sorting <vue-feather type="chevron-down" size="20" class="ml-2"></vue-feather>
+                    </div> 
+                    <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52" @change="selectSorting">
+                        <li><a>Release date asc</a></li> 
+                        <li><a>Release date desc</a></li> 
                         <li><a>Latest added</a></li> 
                         <li><a>First added</a></li> 
                     </ul>
@@ -35,89 +30,49 @@
             </div>
         </div>
 
-        <div class="movies-list flex flex-wrap" v-if="searchTerm">
-            <div v-for="movie in filteredList" :key="movie.title" class="movie-list-item lg:w-1/4 xl:w-1/6 pb-8 px-4">
-                <movie-card :movie="movie" />
-            </div>
-        </div>
-
-        <div class="movies-list flex flex-wrap" v-if="!searchTerm">
-            <div v-for="movie in movieList" :key="movie.title" class="movie-list-item lg:w-1/4 xl:w-1/6 pb-8 px-4">
-                <movie-card :movie="movie" />
-            </div>
-        </div>
-
+        <List :movies="movies" :layout="movieListLayout" v-if="!searchTerm" />
+        <List :movies="searchResults" v-else />
     </section>
 </template>
 
 <script>
-import MovieCard from './MovieCard.vue'
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import List from './List.vue'
 
 export default {
-    components: { MovieCard },
-    props: ['moviesList'],
     name: 'MoviesList',
+    components: { List },
 
-    setup(props) {
+    setup() {
         const store = useStore()
+        const movies = ref(store.state.movies)
+        const movieListLayout = ref('cards')
 
-        // create simple array from props object
-        //let movieList = Object.values(JSON.parse(JSON.stringify(props.moviesList)))
+        const selectSorting = (e) => {
+            console.log('lol')
+        }
 
-        // get movies from the store
-        const movieListObj = computed(() => store.state.movies)
-        // format to array of objects from firebase shit
-        let movieList = Object.values(JSON.parse(JSON.stringify(movieListObj.value)))
-
-        // the text of the search input
-        let searchTerm = ref('')
         
-        // the results array
-        let filteredList = ref([])
 
-        // total size of movies List
-        let numberOfMovies = computed(() => {
-            return movieList.length
-        })
-
-        // size of search result array
-        let numberOfSearchResults = computed(() => {
-            return filteredList.value.length
-        })
-
-        // basic filter 
-        const filterMovies = (movies, term) => {
-            return movies.filter((movie) => {
-                return movie.Title.toLowerCase().indexOf(term.toLowerCase()) !== -1
-            })
+        return {
+            movies, 
+            selectSorting,
+            movieListLayout,
+            sumOfRuntime: computed(() => {
+                return movies.value.reduce((sum, movie) => {
+                    return sum + parseInt(movie.Runtime.replace(/\D/g, ''))
+                }, 0)
+            }),
+            numberOfMovies: computed(() => movies.value.length),
+            searchTerm: computed(() => store.state.searchTerm),
+            searchResults: computed(() => store.state.searchResults),
         }
-
-        // watcher for search term
-        watch(searchTerm, (newValue) => {
-            filteredList.value = filterMovies(movieList, newValue)
-        })
-
-        return { 
-            movieList, 
-            numberOfMovies, 
-            searchTerm, 
-            filteredList, 
-            numberOfSearchResults 
-        }
-    },
+    }
 }
 
 </script>
 
 <style>
-    .movies-list {
-        margin-left: -1rem;
-        margin-right: -1rem;;
-    }
-
-    .movies-list {}
-
-
+    
 </style>

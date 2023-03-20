@@ -4,11 +4,8 @@ node_modules
 
 package-lock.json
 
-/src/firebase.config.js
-
 # local env files
-.env.local
-.env.*.local
+.env
 
 # Log files
 npm-debug.log*

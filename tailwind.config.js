@@ -1,10 +1,10 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  
-  darkMode: false, // or 'media' or 'class'
-  
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+
+  darkMode: 'media',
+
   theme: {
     screens: {
       sm: '480px',
@@ -21,7 +21,7 @@ module.exports = {
     extend: {
       colors: {
         // pink
-        primary: { 
+        primary: {
           light: '#E4245F',
           DEFAULT: '#E4245F',
           dark: '#CF193B'
@@ -29,7 +29,7 @@ module.exports = {
 
         beige: {
           DEFAULT: '#ECEBE6'
-        }, 
+        },
 
         // black
         grey: {
@@ -43,15 +43,15 @@ module.exports = {
       },
     }
   },
-  
+
   variants: {
     extend: {
-      
+
     },
   },
-  
+
   plugins: [
-    require('daisyui'),    
+    require('daisyui'),
   ],
 
   // config (optional)

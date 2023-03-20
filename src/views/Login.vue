@@ -1,7 +1,10 @@
 <template>
     <div class="flex items-center justify-center h-screen flex-col">
-        <div class="p-6 card bg-base-200 w-96">
-            <form @submit.prevent="userLogin">
+        <div class="mb-24">
+            <img src="../assets/logo.png" alt="" class="w-32">            
+        </div>
+        <div class="p-6 card bg-base-200 w-96 shadow-lg">
+            <form @submit.prevent="handleSubmit">
                 <h1 class="text-2xl">Log in</h1>
                 <div 
                     v-if="errorMessage"
@@ -21,7 +24,7 @@
                         type="text" 
                         placeholder="email">
                 </div>
-                <div class="mb-6 form-control">
+                <div class="mb-10 form-control">
                     <label class="label" for="password">
                         <span class="label-text">Password</span>
                     </label>
@@ -34,12 +37,17 @@
                         placeholder="password">
                 </div>
                 <div class="flex items-center justify-between">
-                    <button class="btn btn-primary" :class="{ 'loading': isLoading }"  type="submit">Login</button>
+                    <button 
+                        class="btn btn-primary" 
+                        :class="{ 'loading': isLoading }"  
+                        type="submit">
+                            Login
+                    </button>
                 </div>
             </form>
         </div>
 
-        <div class="mt-3">
+        <div class="mt-5">
             <router-link :to="{name: 'Register'}">Register</router-link>
         </div>
         
@@ -47,62 +55,72 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
 
-    data() {
-        return {
-            email: '',
-            password: '',
-            errorMessage: '',
-            isLoading: false,
-            isErrorEmail: false,
-            isErrorPassword: false,
-        }
-    },
+    setup() {
+        const email = ref('')
+        const password = ref('')
+        const errorMessage = ref('')
 
-    methods: {
-        userLogin() {
-            this.isLoading = true
-            this.isErrorEmail = false
-            this.isErrorPassword = false
+        const store  = useStore()
+        const router = useRouter()
 
-            firebase
-                .auth()
-                .signInWithEmailAndPassword(this.email, this.password)
-                .then( (data) => {
-                    console.log('login successful\n', data)
+        const isLoading = ref(false)
 
-                    this.$store.commit('setUserName', data.user.displayName)
-                    this.$store.commit('setUser', data.user)
+        const isErrorEmail = ref(false)
+        const isErrorName = ref(false)
+        const isErrorPassword = ref(false)
 
-
-                    this.$router.push('/')
+        const handleSubmit = async () => {
+            isLoading.value = true
+                
+            try {
+                await store.dispatch('userLogin', {
+                    email: email.value,
+                    password: password.value
                 })
-                .catch(e => {
-                    this.isLoading = false
+                console.log('login success')
+                router.push('/dashboard')
+            } 
+            catch (e) {
+                // handle error codes to write correct error messages
+                console.log(e)
+
+                isLoading.value = false
                     
-                    switch (e.code) {
-                        case 'auth/invalid-email':
-                            this.errorMessage = 'Invalid email'
-                            this.isErrorEmail = true
-                            break
-                        case 'auth/user-not-found':
-                            this.errorMessage = 'No account with that email was found'
-                            break
-                        case 'auth/wrong-password':
-                            this.errorMessage = 'Incorrect password'
-                            this.isErrorPassword = true
-                            break
-                        default:
-                            this.errorMessage = 'Default error'
-                            break
-                    }
-                    console.error('ERROR: \n', e.message)
-                })
+                switch (e.code) {
+                    case 'auth/invalid-email':
+                        errorMessage.value = 'Invalid email'
+                        isErrorEmail.value = true
+                        break
+                    case 'auth/user-not-found':
+                        errorMessage.value = 'No account with that email was found'
+                        break
+                    case 'auth/wrong-password':
+                        errorMessage.value = 'Incorrect password'
+                        isErrorPassword.value = true
+                        break
+                    default:
+                        errorMessage.value = 'Default error'
+                        break
+                }
+                
+            }
+        }
+
+        return {
+            handleSubmit,
+            email,
+            password,
+            isLoading,
+            isErrorName,
+            isErrorEmail,
+            errorMessage,
+            isErrorPassword,
         }
     }
 }
