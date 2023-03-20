@@ -86,7 +86,7 @@ export default {
         const fetchOMDB = async (searchTerm, page) => {
             //${omdb_api_url}?s=${q}&plot=short&type=movie&apikey=${omdb_api_key}
             const response = await fetch(
-                `${OMDB_API.api_url}/?apikey=${OMDB_API.api_key}&s=${searchTerm}&page=${page}`
+                `${OMDB_API.url}/?apikey=${OMDB_API.key}&s=${searchTerm}&page=${page}`
             );
             const data = await response.json();
             return data;

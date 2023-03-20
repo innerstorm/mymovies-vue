@@ -1,13 +1,11 @@
 <template>
-  <a href="/" class="logo">
-     
-  </a>
+  <a href="/" class="logo"></a>
 </template>
 
 <script>
-export default {
-    name: 'Logo'
-}
+  export default {
+      name: 'Logo'
+  }
 </script>
 
 <style lang="scss" scoped>

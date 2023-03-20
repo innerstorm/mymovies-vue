@@ -1,5 +1,6 @@
 import '../firebase/config'
 import firebase from 'firebase'
+
 import router from "../router"
 import { getMyFancyGravatarURL } from "../functions"
 
@@ -17,11 +18,11 @@ export default {
                         displayName: username,
                         photoURL: getMyFancyGravatarURL(email)
                     })
-                    .then(() => {
-                        context.commit('setUser', credentials.user)
-                        context.commit('setLoggedIn', true)
-                        console.log('Profile updated!') 
-                    })
+                        .then(() => {
+                            context.commit('setUser', credentials.user)
+                            context.commit('setLoggedIn', true)
+                            console.log('Profile updated!')
+                        })
                 }
             })
             .catch(error => {
@@ -68,5 +69,5 @@ export default {
         console.log(movie.Title)
     }
 
- 
+
 }
